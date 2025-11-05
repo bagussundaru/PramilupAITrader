@@ -1,230 +1,318 @@
-# 🤖 Open-nof1.ai
+# 🚀 November AI Trader - Pramilupu Trading AI
 
-> An open-source implementation of [nof1.ai](https://nof1.ai)'s Alpha Arena - A benchmark platform for evaluating AI models' cryptocurrency trading capabilities with real money in real markets.
+[![Nebius AI](https://img.shields.io/badge/Powered%20by-Nebius%20AI-blue)](https://nebius.ai)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://typescriptlang.org)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://docker.com)
 
-![Screenshot 2](./screen-shot-2.png)
-
-## 🌟 What is Alpha Arena?
-
-Alpha Arena is a revolutionary benchmark that tests AI models where it matters most: **real financial markets with real money**. Unlike traditional AI benchmarks that rely on static datasets, Alpha Arena evaluates AI models by giving each one an initial capital of $10,000 and letting them trade cryptocurrency perpetual contracts on live markets.
-
-**Why markets are the ultimate test of intelligence:**
-- Markets are dynamic, adversarial, and open-ended
-- They challenge AI in ways that static benchmarks cannot
-- Real-time decision-making under uncertainty reveals true capabilities
-- Risk management and strategic thinking are essential
+Advanced AI-powered cryptocurrency trading platform with real-time market analysis, automated trading strategies, and professional dashboard interface.
 
 ## 🎯 Features
 
-This open-source implementation currently focuses on running the **DeepSeek** trading model with the following capabilities:
+### 🤖 Nebius AI Integration
+- **Real-time Market Analysis** powered by `meta-llama/Meta-Llama-3.1-8B-Instruct`
+- **Intelligent Trading Signals** with BUY/SELL/HOLD recommendations
+- **Market Sentiment Analysis** with confidence levels
+- **Technical Indicators**: RSI, Trend Analysis, Support/Resistance levels
+- **Risk Assessment**: Volatility analysis, Stop Loss, Take Profit calculations
 
-- 🔄 **Real-time Trading**: Automated cryptocurrency trading on Binance via CCXT
-- 📊 **Live Dashboard**: Beautiful real-time charts showing account performance
-- 🧠 **AI Decision Making**: Complete chain-of-thought reasoning for every trade
-- 💹 **Multi-Asset Support**: Trade BTC, ETH, SOL, BNB, and DOGE
-- 📈 **Performance Tracking**: Detailed metrics, trade history, and profit/loss tracking
-- 🔍 **Full Transparency**: Every decision, prompt, and reasoning is logged and visible
-- ⚡ **Cron Jobs**: Automated 20-second metric collection and 3-minute trading intervals
+### 📊 Professional Trading Dashboard
+- **Live Market Data** from multiple cryptocurrency exchanges
+- **Individual Analysis Cards** for BTC, ETH, SOL, ADA, DOGE
+- **Real-time P&L Tracking** with position management
+- **Trading Engine Controls** with start/stop functionality
+- **Exchange Management** with secure API key handling
 
-## 🏗️ Tech Stack
+### 🔧 Technical Architecture
+- **Next.js 15** with TypeScript for robust frontend
+- **Prisma ORM** with PostgreSQL for data persistence
+- **Docker Containerization** for production deployment
+- **Real-time Data Processing** with caching mechanisms
+- **Comprehensive Error Handling** with fallback systems
 
-- **Framework**: [Next.js 15](https://nextjs.org/) with App Router & Turbopack
-- **AI SDK**: [Vercel AI SDK](https://sdk.vercel.ai/) with DeepSeek integration
-- **Database**: PostgreSQL with [Prisma ORM](https://www.prisma.io/)
-- **Trading**: [CCXT](https://github.com/ccxt/ccxt) for exchange connectivity
-- **Charts**: [Recharts](https://recharts.org/) with [shadcn/ui](https://ui.shadcn.com/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Runtime**: [Bun](https://bun.sh/) for fast package management
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- [Bun](https://bun.sh/) installed
+- Node.js 18+ 
+- Docker & Docker Compose
 - PostgreSQL database
-- Binance API credentials (for live trading)
-- DeepSeek API key
+- Nebius AI API key
 
 ### Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/snowingfox/open-nof1.ai.git
-   cd open-nof1.ai
-   ```
+```bash
+git clone https://github.com/bagussundaru/NovemberAITrader.git
+cd NovemberAITrader
+```
 
 2. **Install dependencies**
-   ```bash
-   bun install
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-
-   Fill in your `.env` file:
-   ```env
-   # Application
-   NEXT_PUBLIC_URL="http://localhost:3000"
-
-   # Database
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/nof1"
-
-   # AI Models
-   DEEPSEEK_API_KEY="your_deepseek_api_key"
-   OPENROUTER_API_KEY="your_openrouter_api_key"  # Optional: for additional models
-   
-   # Market Research (Optional)
-   EXA_API_KEY="your_exa_api_key"  # For enhanced market analysis
-
-   # Trading (Binance)
-   BINANCE_API_KEY="your_binance_api_key"
-   BINANCE_API_SECRET="your_binance_secret"
-   BINANCE_USE_SANDBOX="true"  # Set to "false" for live trading
-   
-   # Trading Configuration
-   START_MONEY=10000  # Initial capital in USDT (e.g., 10000 = $10,000 USDT)
-
-   # Cron Job Authentication
-   CRON_SECRET_KEY="your_secret_token"
-   ```
-
-4. **Set up the database**
-   ```bash
-   bunx prisma generate
-   bunx prisma db push
-   ```
-
-5. **Run the development server**
-   ```bash
-   bun dev
-   ```
-
-6. **Set up cron jobs** (for automated trading)
-
-   You'll need to set up external cron jobs or use a service like [Vercel Cron](https://vercel.com/docs/cron-jobs) to call these endpoints:
-
-   - `POST /api/cron/20-seconds-metrics-interval` - Collect metrics every 20 seconds
-   - `POST /api/cron/3-minutes-run-interval` - Execute trading logic every 3 minutes
-
-   Example crontab:
-   ```bash
-   # Metrics collection (every 20 seconds)
-   * * * * * curl -X POST http://localhost:3000/api/cron/20-seconds-metrics-interval -H "Authorization: Bearer YOUR_CRON_SECRET_KEY"
-   * * * * * sleep 20 && curl -X POST http://localhost:3000/api/cron/20-seconds-metrics-interval -H "Authorization: Bearer YOUR_CRON_SECRET_KEY"
-   * * * * * sleep 40 && curl -X POST http://localhost:3000/api/cron/20-seconds-metrics-interval -H "Authorization: Bearer YOUR_CRON_SECRET_KEY"
-
-   # Trading execution (every 3 minutes)
-   */3 * * * * curl -X POST http://localhost:3000/api/cron/3-minutes-run-interval -H "Authorization: Bearer YOUR_CRON_SECRET_KEY"
-   ```
-
-Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
-
-## 📁 Project Structure
-
-```
-open-nof1.ai/
-├── app/
-│   ├── api/
-│   │   ├── cron/              # Automated job endpoints
-│   │   ├── metrics/           # Metrics data API
-│   │   ├── pricing/           # Crypto pricing API
-│   │   └── model/chat/        # Chat history API
-│   ├── page.tsx               # Main dashboard
-│   └── globals.css
-├── components/
-│   ├── ui/                    # shadcn/ui components
-│   ├── metrics-chart.tsx      # Account value chart
-│   ├── models-view.tsx        # Trade & chat history
-│   └── crypto-card.tsx        # Price display cards
-├── lib/
-│   ├── ai/
-│   │   ├── agent/             # AI agent logic
-│   │   ├── model.ts           # Model configurations
-│   │   ├── prompt.ts          # Trading prompts
-│   │   └── tool.ts            # AI tools/functions
-│   ├── trading/
-│   │   ├── buy.ts             # Buy execution
-│   │   ├── sell.ts            # Sell execution
-│   │   ├── current-market-state.ts
-│   │   └── account-information-and-performance.ts
-│   └── types/                 # TypeScript types
-└── prisma/
-    └── schema.prisma          # Database schema
+```bash
+npm install
 ```
 
-## 🎮 How It Works
+3. **Environment Setup**
+```bash
+cp .env.production.template .env.production
+# Edit .env.production with your configuration
+```
 
-1. **Data Collection**: Every 20 seconds, the system collects account metrics (balance, positions, PnL)
-2. **AI Decision Making**: Every 3 minutes, the AI analyzes market data and makes trading decisions
-3. **Execution**: Approved trades are executed via Binance API
-4. **Transparency**: All reasoning, prompts, and decisions are stored in the database
-5. **Visualization**: The dashboard displays real-time performance and trade history
+4. **Database Setup**
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-### ⚙️ Configuration
+5. **Build and Run**
+```bash
+npm run build
+docker-compose up -d
+```
 
-**Starting Capital** (`START_MONEY`)
-- Set your initial trading capital in USDT (Tether stablecoin)
-- Example: `START_MONEY=10000` means you start with $10,000 USDT
-- Recommended for testing: Start with small amounts (e.g., `START_MONEY=30`)
-- The AI will make trading decisions based on this available capital
-- All profits and losses are calculated relative to this starting amount
+6. **Access Dashboard**
+```
+http://localhost:3000
+```
 
-## 🤝 AI Models
+## 🔑 Environment Configuration
 
-Currently supported:
-- **DeepSeek V3 Chat** - Primary trading model
-- **DeepSeek R1** - Advanced reasoning model (optional)
+### Required Environment Variables
 
-Want to add more models? Check out the [AI SDK providers](https://sdk.vercel.ai/providers/ai-sdk-providers) and add them to `lib/ai/model.ts`!
+```env
+# Nebius AI Configuration
+NEBIUS_API_KEY=your_nebius_api_key_here
+NEBIUS_API_URL=https://api.studio.nebius.ai/v1/chat/completions
+
+# Database Configuration
+DATABASE_URL=postgresql://username:password@localhost:5432/trading_bot
+
+# Trading Configuration
+TRADING_PAIRS=BTC/USDT,ETH/USDT,SOL/USDT,ADA/USDT,DOGE/USDT
+RISK_PER_TRADE=2.0
+MAX_LEVERAGE=10
+
+# Security
+ENCRYPTION_KEY=your_32_character_encryption_key
+JWT_SECRET=your_jwt_secret_key
+
+# Exchange APIs (Optional)
+BINANCE_API_KEY=your_binance_api_key
+BINANCE_SECRET_KEY=your_binance_secret_key
+GATEIO_API_KEY=your_gateio_api_key
+GATEIO_SECRET_KEY=your_gateio_secret_key
+```
 
 ## 📊 Dashboard Features
 
-- **Live Crypto Prices**: Real-time prices for BTC, ETH, SOL, BNB, DOGE
-- **Account Performance Chart**: Interactive chart showing total account value over time
-- **Completed Trades**: Detailed history of all buy/sell operations
-- **Model Chat**: Full transparency into AI's chain-of-thought and decision-making
-- **Positions**: Current open positions (coming soon)
+### AI Market Analysis
+- **Nebius AI Status**: Real-time connection indicator
+- **Market Sentiment**: AI-powered market analysis
+- **Trading Signals**: BUY/SELL/HOLD recommendations with confidence levels
+- **Best Opportunities**: Highlighted trading opportunities with detailed reasoning
 
-## ⚠️ Disclaimer
+### Individual Cryptocurrency Analysis
+Each supported cryptocurrency displays:
+- **Action Recommendation**: BUY/SELL/HOLD
+- **Confidence Level**: Percentage confidence from AI analysis
+- **Technical Indicators**: RSI values, trend direction
+- **Risk Assessment**: Stop loss and take profit levels
+- **AI Reasoning**: Detailed explanation for recommendations
 
-**This is educational/research software. Trading cryptocurrencies involves substantial risk of loss.**
+### Trading Engine
+- **Engine Status**: Active/Inactive with real-time controls
+- **Performance Metrics**: Total P&L, trade count, active positions
+- **Position Management**: Real-time position tracking with P&L
+- **Risk Controls**: Configurable risk parameters
 
-- Start with small amounts or paper trading
-- The AI model may make poor decisions
-- Past performance doesn't guarantee future results
-- You are responsible for any financial losses
-- Review and test thoroughly before using real money
+## 🤖 AI Analysis Example
 
-## 🤔 Why Open Source?
+```json
+{
+  "symbol": "BTCUSDT",
+  "action": "BUY",
+  "confidence": 0.75,
+  "reasoning": "Despite the strong bearish trend, the RSI level is normal, indicating a potential oversold condition. The price has pulled back to the support level, and the volatility is high, suggesting a possible bounce.",
+  "technicalIndicators": {
+    "rsi": 44.82,
+    "trend": "BEARISH",
+    "support": 98000,
+    "resistance": 110000
+  },
+  "riskAssessment": {
+    "volatility": "HIGH",
+    "stopLoss": 97000,
+    "takeProfit": 105000,
+    "recommendedLeverage": 2
+  },
+  "modelUsed": "Nebius-meta-llama/Meta-Llama-3.1-8B-Instruct"
+}
+```
 
-The original [nof1.ai](https://nof1.ai) Alpha Arena is a closed competition. This open-source version aims to:
+## 🔧 API Endpoints
 
-1. **Democratize AI trading research** - Anyone can experiment with AI trading agents
-2. **Educational purposes** - Learn how AI agents make financial decisions
-3. **Transparency** - Full visibility into prompts, reasoning, and execution
-4. **Community innovation** - Improve and iterate on trading strategies together
+### AI Analysis
+- `GET /api/ai/analysis` - Get latest AI analysis results
+- `POST /api/ai/analysis` - Trigger new AI analysis
 
-## 📝 License
+### Trading Engine
+- `GET /api/trading/engine` - Get engine status
+- `POST /api/trading/engine` - Control engine (start/stop)
+- `GET /api/trading/balance` - Get account balance and positions
+- `GET /api/trading/positions` - Get active positions
 
-MIT License - See [LICENSE](LICENSE) file for details
+### Market Data
+- `GET /api/pricing` - Get real-time cryptocurrency prices
+- `GET /api/news` - Get latest cryptocurrency news
+- `GET /api/health` - System health check
+
+## 🐳 Docker Deployment
+
+### Production Deployment
+```bash
+# Build and start services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Docker Configuration
+The application includes:
+- **Next.js Application** container
+- **PostgreSQL Database** container
+- **Nginx Reverse Proxy** (optional)
+- **Monitoring Stack** with Prometheus (optional)
+
+## 🧪 Testing
+
+### Run Test Suite
+```bash
+# API Integration Tests
+npm run test
+
+# Trading Engine Tests
+./test-trading-engine.sh
+
+# Nebius AI Integration Tests
+./test-nebius-integration.sh
+
+# Dashboard Tests
+./test-final-nebius-dashboard.sh
+```
+
+### Test Coverage
+- ✅ Nebius AI API integration
+- ✅ Trading engine functionality
+- ✅ Database operations
+- ✅ Risk management systems
+- ✅ Dashboard rendering
+- ✅ Error handling and recovery
+
+## 📈 Performance Features
+
+### Caching Strategy
+- **In-memory caching** for AI analysis results (5-minute TTL)
+- **Database query optimization** with Prisma
+- **Real-time data streaming** with efficient updates
+
+### Error Handling
+- **Graceful degradation** when AI services are unavailable
+- **Fallback mechanisms** with cached data
+- **Comprehensive logging** for debugging
+- **Automatic retry logic** for failed operations
+
+## 🔒 Security Features
+
+### Data Protection
+- **API Key Encryption** using AES-256
+- **Secure Environment Variables** management
+- **Input Validation** and sanitization
+- **Rate Limiting** on API endpoints
+
+### Trading Security
+- **Risk Management** with configurable limits
+- **Position Size Controls** to prevent over-exposure
+- **Stop Loss Automation** for risk mitigation
+- **Emergency Stop** functionality
+
+## 🛠️ Development
+
+### Project Structure
+```
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   ├── trading/           # Trading dashboard pages
+│   └── page.tsx           # Main dashboard
+├── components/            # React components
+├── lib/                   # Core libraries
+│   ├── ai/               # AI integration
+│   ├── trading-bot/      # Trading engine
+│   └── exchanges/        # Exchange integrations
+├── prisma/               # Database schema
+└── docker-compose.yml    # Docker configuration
+```
+
+### Development Commands
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run database migrations
+npx prisma db push
+
+# Generate Prisma client
+npx prisma generate
+```
+
+## 📊 Monitoring & Analytics
+
+### Dashboard Metrics
+- **Real-time Trading Performance**
+- **AI Analysis Accuracy Tracking**
+- **System Health Monitoring**
+- **Exchange API Status**
+
+### Logging
+- **Structured Logging** with Winston
+- **Error Tracking** with detailed stack traces
+- **Performance Metrics** collection
+- **Trading Activity Logs**
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Inspired by [nof1.ai](https://nof1.ai)'s Alpha Arena
-- Built with [shadcn/ui](https://ui.shadcn.com/) components
-- Powered by [DeepSeek](https://www.deepseek.com/) AI models
-- Trading via [CCXT](https://github.com/ccxt/ccxt)
+- **Nebius AI** for providing advanced AI capabilities
+- **Meta** for the Llama 3.1 8B Instruct model
+- **Next.js Team** for the excellent framework
+- **Prisma Team** for the robust ORM
 
-## 🔗 Links
+## 📞 Support
 
-- [nof1.ai Official Site](https://nof1.ai)
-- [Alpha Arena](https://nof1.ai)
-- [DeepSeek](https://www.deepseek.com/)
+For support and questions:
+- Create an [Issue](https://github.com/bagussundaru/NovemberAITrader/issues)
+- Check the [Documentation](https://github.com/bagussundaru/NovemberAITrader/wiki)
 
 ---
 
-**⚡ Built with Bun + Next.js 15 + DeepSeek + CCXT**
+**⚠️ Disclaimer**: This software is for educational and research purposes. Cryptocurrency trading involves significant risk. Always do your own research and never invest more than you can afford to lose.
 
-*Markets are the ultimate test of intelligence. Let's find out if LLMs are good enough.*
+---
+
+Made with ❤️ by [Bagus Sundaru](https://github.com/bagussundaru) | Powered by [Nebius AI](https://nebius.ai)
