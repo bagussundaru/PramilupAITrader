@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ExchangeManager from "@/components/exchange-manager";
+import TradingExecutorControl from "@/components/trading-executor-control";
 
 export default function Home() {
   const [health, setHealth] = useState<any>(null);
@@ -481,61 +482,14 @@ export default function Home() {
           )}
         </div>
 
-        {/* Trading Engine Control - Sidebar */}
+        {/* AI Trading Executor Control - Sidebar */}
         <div className="card card-compact col-span-12 md:col-span-4 lg:col-span-4">
           <div className="card-header">
-            <h3 className="card-title">⚡ Trading Engine</h3>
+            <h3 className="card-title">🤖 AI Trading Executor</h3>
+            <div className="card-subtitle">Nebius AI + Binance Futures</div>
           </div>
           
-          {tradingEngine && tradingEngine.success ? (
-            <div>
-              <div style={{ textAlign: 'center', marginBottom: 'var(--spacing-lg)' }}>
-                <div className={`status ${
-                  tradingEngine.data.status === 'ACTIVE' ? 'status-active' : 'status-inactive'
-                }`} style={{ fontSize: 'var(--font-size-lg)', padding: 'var(--spacing-md) var(--spacing-xl)' }}>
-                  {tradingEngine.data.status}
-                </div>
-              </div>
-              
-              <div className="grid grid-1 mb-lg" style={{ gap: 'var(--spacing-md)' }}>
-                <div className="metric-card">
-                  <div className={`metric-value ${
-                    (tradingEngine.data.performance?.totalProfit || 0) >= 0 
-                      ? 'text-success' : 'text-danger'
-                  }`}>
-                    ${tradingEngine.data.performance?.totalProfit?.toFixed(2) || '0.00'}
-                  </div>
-                  <div className="metric-label">Total P&L</div>
-                </div>
-                <div className="metric-card">
-                  <div className="metric-value" style={{ color: 'var(--color-primary)' }}>
-                    {tradingEngine.data.performance?.tradesCount || 0}
-                  </div>
-                  <div className="metric-label">Total Trades</div>
-                </div>
-                <div className="metric-card">
-                  <div className="metric-value text-warning">
-                    {tradingEngine.data.performance?.activePositions || 0}
-                  </div>
-                  <div className="metric-label">Active Positions</div>
-                </div>
-              </div>
-              
-              <button 
-                onClick={() => handleEngineControl(tradingEngine.data.status === 'ACTIVE' ? 'stop' : 'start')}
-                className={`btn ${
-                  tradingEngine.data.status === 'ACTIVE' ? 'btn-danger' : 'btn-success'
-                }`}
-                style={{ width: '100%', padding: 'var(--spacing-lg)' }}
-              >
-                {tradingEngine.data.status === 'ACTIVE' ? '🛑 Stop Trading' : '🚀 Start Trading'}
-              </button>
-            </div>
-          ) : (
-            <div className="text-center p-xl">
-              <p className="text-muted">Loading...</p>
-            </div>
-          )}
+          <TradingExecutorControl />
         </div>
 
         {/* Market Data - Full Width */}
